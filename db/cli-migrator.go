@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"house-store/internal/consts"
 	"os"
 	"strconv"
 
@@ -47,8 +48,7 @@ func main() {
 }
 
 func readConfig() (configDatabase, error) {
-	const PathToEnvFile = "./"
-	path := fmt.Sprintf("%v.env", PathToEnvFile)
+	path := fmt.Sprintf("%v.env", consts.PathToEnvFile)
 
 	var config configDatabase
 	err := cleanenv.ReadConfig(path, &config)
