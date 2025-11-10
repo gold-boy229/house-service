@@ -3,7 +3,7 @@ info:
   title: Тестовое задание для отбора на Backend Bootcamp
   version: 1.0.0
 paths:
-  /dummyLogin:
+  /api/v1/dummyLogin:
     get:
       description: >-
         Упрощенный процесс получения токена для дальнейшего прохождения авторизации
@@ -27,7 +27,7 @@ paths:
                     $ref: '#/components/schemas/Token'
         '500':
           $ref: '#/components/responses/5xx'
-  /login:
+  /api/v1/login:
     post:
       description: >-
         Дополнительное задание.
@@ -61,7 +61,7 @@ paths:
           description: Пользователь не найден
         '500':
           $ref: '#/components/responses/5xx'
-  /register:
+  /api/v1/register:
     post:
       description: >-
         Дополнительное задание.
@@ -94,7 +94,7 @@ paths:
           description: Невалидные данные
         '500':
           $ref: '#/components/responses/5xx'
-  /house/create:
+  /api/v1/house/create:
     post:
       description: >-
         Создание нового дома.
@@ -130,7 +130,7 @@ paths:
           $ref: '#/components/responses/401'
         '500':
           $ref: '#/components/responses/5xx'
-  /house/{id}:
+  /api/v1/house/{id}:
     get:
       description: >-
         Получение квартир в выбранном доме.
@@ -165,7 +165,7 @@ paths:
           $ref: '#/components/responses/401'
         '500':
           $ref: '#/components/responses/5xx'
-  /house/{id}/subscribe:
+  /api/v1/house/{id}/subscribe:
     post:
       description: >-
         Дополнительное задание.
@@ -199,7 +199,7 @@ paths:
           $ref: '#/components/responses/401'
         '500':
           $ref: '#/components/responses/5xx'
-  /flat/create:
+  /api/v1/flat/create:
     post:
       description: >-
         Создание квартиры.
@@ -237,7 +237,7 @@ paths:
           $ref: '#/components/responses/401'
         '500':
           $ref: '#/components/responses/5xx'
-  /flat/update:
+  /api/v1/flat/update:
     post:
       description: >-
         Обновление квартиры.

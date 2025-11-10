@@ -1,4 +1,4 @@
-package app
+package main
 
 import "house-store/internal/app"
 

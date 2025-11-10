@@ -3,6 +3,7 @@ package app
 import (
 	"house-store/internal/handlers"
 	"house-store/internal/repository"
+	"house-store/internal/utilities/auth"
 
 	"github.com/labstack/echo/v4"
 )
@@ -25,16 +26,21 @@ func (app *App) Run() {
 		registerHandler   registerHandler   = handlers.NewRegisterHandler(repo)
 	)
 
-	app.echo.GET("/house/{id}", houseHandler.GetHouseById)
-	app.echo.POST("/house/{id}/subscribe", houseHandler.SubscribeForHouseUpdates)
-	app.echo.POST("/house/create", houseHandler.CreateNewHouse)
+	err := auth.LoadJWTSecret()
+	if err != nil {
+		panic(err.Error())
+	}
 
-	app.echo.POST("/flat/create", flatHandler.Create)
-	app.echo.POST("/flat/update", flatHandler.Update)
+	app.echo.GET("/api/v1/house/{id}", houseHandler.GetHouseById)
+	app.echo.POST("/api/v1/house/{id}/subscribe", houseHandler.SubscribeForHouseUpdates)
+	app.echo.POST("/api/v1/house/create", houseHandler.CreateNewHouse)
 
-	app.echo.POST("/dummyLogin", dummyLoginHandler.DummyLogin)
+	app.echo.POST("/api/v1/flat/create", flatHandler.Create)
+	app.echo.POST("/api/v1/flat/update", flatHandler.Update)
 
-	app.echo.POST("/login", loginHandler.Login)
+	app.echo.POST("/api/v1/dummyLogin", dummyLoginHandler.DummyLogin)
 
-	app.echo.POST("/register", registerHandler.RegisterNewUser)
+	app.echo.POST("/api/v1/login", loginHandler.Login)
+
+	app.echo.POST("/api/v1/register", registerHandler.RegisterNewUser)
 }
