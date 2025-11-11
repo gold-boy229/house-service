@@ -96,3 +96,11 @@ func validateTokenWithKey(tokenString, secretKey string) (string, error) {
 		return userRole, fmt.Errorf("JWT contains unknown userRole = %v", userRole)
 	}
 }
+
+func IsModerator(userRole string) bool {
+	return userRole == enum.USER_ROLE_MODERATOR
+}
+
+func IsClient(userRole string) bool {
+	return userRole == enum.USER_ROLE_MODERATOR
+}

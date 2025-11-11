@@ -2,6 +2,7 @@ package app
 
 import (
 	"house-store/internal/handlers"
+	mw "house-store/internal/middleware"
 	"house-store/internal/repository"
 	"house-store/internal/utilities/auth"
 
@@ -31,12 +32,12 @@ func (app *App) Run() {
 		panic(err.Error())
 	}
 
-	app.echo.GET("/api/v1/house/{id}", houseHandler.GetHouseById)
-	app.echo.POST("/api/v1/house/{id}/subscribe", houseHandler.SubscribeForHouseUpdates)
-	app.echo.POST("/api/v1/house/create", houseHandler.CreateNewHouse)
+	app.echo.GET("/api/v1/house/{id}", houseHandler.GetHouseById, mw.AuthOnly)
+	app.echo.POST("/api/v1/house/{id}/subscribe", houseHandler.SubscribeForHouseUpdates, mw.AuthOnly)
+	app.echo.POST("/api/v1/house/create", houseHandler.CreateNewHouse, mw.ModeratorsOnly)
 
-	app.echo.POST("/api/v1/flat/create", flatHandler.Create)
-	app.echo.POST("/api/v1/flat/update", flatHandler.Update)
+	app.echo.POST("/api/v1/flat/create", flatHandler.Create, mw.AuthOnly)
+	app.echo.POST("/api/v1/flat/update", flatHandler.Update, mw.ModeratorsOnly)
 
 	app.echo.GET("/api/v1/dummyLogin", dummyLoginHandler.DummyLogin)
 
