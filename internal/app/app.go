@@ -38,9 +38,11 @@ func (app *App) Run() {
 	app.echo.POST("/api/v1/flat/create", flatHandler.Create)
 	app.echo.POST("/api/v1/flat/update", flatHandler.Update)
 
-	app.echo.POST("/api/v1/dummyLogin", dummyLoginHandler.DummyLogin)
+	app.echo.GET("/api/v1/dummyLogin", dummyLoginHandler.DummyLogin)
 
 	app.echo.POST("/api/v1/login", loginHandler.Login)
 
 	app.echo.POST("/api/v1/register", registerHandler.RegisterNewUser)
+
+	app.echo.Start(":8080")
 }
