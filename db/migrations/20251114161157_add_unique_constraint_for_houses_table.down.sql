@@ -1,0 +1,2 @@
+alter table houses
+drop constraint unique_address_year_developer_idx

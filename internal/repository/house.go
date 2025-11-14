@@ -17,27 +17,38 @@ func (r *repository) House_SubscribeForUpdates() {
 }
 
 func (repo *repository) House_Create(ctx context.Context, house entity.House) (entity.House, error) {
+	tx, err := repo.Db.BeginTx(ctx, nil)
+	if err != nil {
+		return entity.House{}, err
+	}
+	defer tx.Rollback()
+
 	model := convertEntiryToModel_House(house)
 
-	newHouseId, err := repo.insertRowAndGetID_House(model)
+	newHouseId, err := insertRowAndGetID_House(tx, model)
 	if err != nil {
 		return entity.House{}, err
 	}
 
-	resultModel, err := repo.getHouseById(newHouseId)
+	resultModel, err := getHouseById(tx, newHouseId)
 	if err != nil {
-		return entity.House{}, fmt.Errorf("House_Create. err = %v", err)
+		return entity.House{}, err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return entity.House{}, err
 	}
 
 	return convertModelToEntity_House(resultModel), nil
 }
 
-func (repo *repository) insertRowAndGetID_House(house model.House) (int64, error) {
+func insertRowAndGetID_House(tx *sql.Tx, house model.House) (int64, error) {
 	query := `INSERT INTO houses(address, year, developer) 
 				VALUES ($1, $2, $3)
 				RETURNING houseId`
 	var id int64
-	err := repo.Db.QueryRow(query, house.Address, house.Year, house.Developer).Scan(&id)
+	err := tx.QueryRow(query, house.Address, house.Year, house.Developer).Scan(&id)
 	if err != nil {
 		fmt.Printf("insertHouse. model = %+v; err = %v\n", house, err)
 		return 0, err
@@ -46,13 +57,13 @@ func (repo *repository) insertRowAndGetID_House(house model.House) (int64, error
 	return id, nil
 }
 
-func (repo *repository) getHouseById(id int64) (model.House, error) {
+func getHouseById(tx *sql.Tx, id int64) (model.House, error) {
 	query := `SELECT houseId, address, year, developer, created_at, updated_at
-				FROM houses
-				WHERE houseId = $1`
+			FROM houses
+			WHERE houseId = $1`
 
 	var h model.House
-	err := repo.Db.QueryRow(query, id).Scan(
+	err := tx.QueryRow(query, id).Scan(
 		&h.Id,
 		&h.Address,
 		&h.Year,
