@@ -3,24 +3,15 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"house-store/internal/consts"
+	"house-store/internal/config"
 	"os"
 	"strconv"
 
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
-	"github.com/ilyakaznacheev/cleanenv"
 	_ "github.com/lib/pq"
 )
-
-type configDatabase struct {
-	Host     string `env:"DB_HOST" env-required:"true"`
-	Port     string `env:"DB_PORT" env-required:"true"`
-	Name     string `env:"DB_NAME" env-required:"true"`
-	User     string `env:"DB_USER" env-required:"true"`
-	Password string `env:"DB_PASSWORD" env-required:"true"`
-}
 
 type argsCLI struct {
 	MigrationType string
@@ -28,7 +19,7 @@ type argsCLI struct {
 }
 
 func main() {
-	config, err := readConfig()
+	config, err := config.ReadConfigDB()
 	if err != nil {
 		panic(err.Error())
 	}
@@ -45,17 +36,6 @@ func main() {
 		panic(err.Error())
 	}
 	fmt.Println("Migrations successfully applied")
-}
-
-func readConfig() (configDatabase, error) {
-	path := fmt.Sprintf("%v.env", consts.PathToEnvFile)
-
-	var config configDatabase
-	err := cleanenv.ReadConfig(path, &config)
-	if err != nil {
-		return config, err
-	}
-	return config, nil
 }
 
 func readArgs() (argsCLI, error) {
@@ -87,8 +67,8 @@ func readArgs() (argsCLI, error) {
 	return resultArgs, nil
 }
 
-func runMigrations(configDB configDatabase, args argsCLI) error {
-	db, err := sql.Open("postgres", buildDB_URL(configDB))
+func runMigrations(configDB config.ConfigDatabase, args argsCLI) error {
+	db, err := sql.Open("postgres", config.BuildDB_URL(configDB))
 	if err != nil {
 		return err
 	}
@@ -119,16 +99,4 @@ func runMigrations(configDB configDatabase, args argsCLI) error {
 	}
 
 	return nil
-}
-
-func buildDB_URL(configDB configDatabase) string {
-	dbURL := fmt.Sprintf(
-		"postgres://%v:%v@%v:%v/%v?sslmode=disable",
-		configDB.User,
-		configDB.Password,
-		configDB.Host,
-		configDB.Port,
-		configDB.Name,
-	)
-	return dbURL
 }
