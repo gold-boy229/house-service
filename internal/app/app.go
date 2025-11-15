@@ -61,8 +61,8 @@ func (app *App) Run() {
 		registerHandler   registerHandler   = handlers.NewRegisterHandler(repo)
 	)
 
-	app.echo.GET("/api/v1/house/{id}", houseHandler.GetHouseById, mw.AuthOnly)
-	app.echo.POST("/api/v1/house/{id}/subscribe", houseHandler.SubscribeForHouseUpdates, mw.AuthOnly)
+	app.echo.GET("/api/v1/house/:id", houseHandler.GetHouseById, mw.AuthOnly)
+	app.echo.POST("/api/v1/house/:id/subscribe", houseHandler.SubscribeForHouseUpdates, mw.AuthOnly)
 	app.echo.POST("/api/v1/house/create", houseHandler.CreateNewHouse, mw.ModeratorsOnly)
 
 	app.echo.POST("/api/v1/flat/create", flatHandler.Create, mw.AuthOnly)

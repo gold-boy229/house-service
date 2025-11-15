@@ -82,7 +82,7 @@ func validateTokenWithKey(tokenString, secretKey string) (string, error) {
 		return "", err
 	}
 
-	fmt.Printf("token.Claims = %+v", token.Claims)
+	fmt.Printf("token.Claims = %+v\n", token.Claims)
 	claims, ok := token.Claims.(*jwt.RegisteredClaims)
 	if !ok {
 		return "", fmt.Errorf("cannot convert token.Claims to 'jwt.RegisteredClaims' type")
@@ -102,5 +102,5 @@ func IsModerator(userRole string) bool {
 }
 
 func IsClient(userRole string) bool {
-	return userRole == enum.USER_ROLE_MODERATOR
+	return userRole == enum.USER_ROLE_CLIENT
 }
