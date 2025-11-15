@@ -1,24 +1,19 @@
 package handlers
 
-import "github.com/labstack/echo/v4"
+import (
+	"context"
+	"house-store/internal/entity"
+)
 
 type flatProvider interface {
-	Flat_Create()
+	Flat_Create(context.Context, entity.Flat) (entity.Flat, error)
 	Flat_Update()
 }
 
 type flatHandler struct {
-	repo *flatProvider
+	repo flatProvider
 }
 
 func NewFlatHandler(repo flatProvider) *flatHandler {
-	return &flatHandler{repo: &repo}
-}
-
-func (h *flatHandler) Update(c echo.Context) error {
-	return nil
-}
-
-func (h *flatHandler) Create(c echo.Context) error {
-	return nil
+	return &flatHandler{repo: repo}
 }
