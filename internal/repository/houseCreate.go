@@ -8,14 +8,6 @@ import (
 	"house-store/internal/model"
 )
 
-func (r *repository) House_GetById() {
-
-}
-
-func (r *repository) House_SubscribeForUpdates() {
-
-}
-
 func (repo *repository) House_Create(ctx context.Context, house entity.House) (entity.House, error) {
 	tx, err := repo.Db.BeginTx(ctx, nil)
 	if err != nil {
