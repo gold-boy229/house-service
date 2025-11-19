@@ -66,7 +66,7 @@ func (app *App) Run() {
 	app.echo.POST("/api/v1/house/create", houseHandler.CreateNewHouse, mw.ModeratorsOnly)
 
 	app.echo.POST("/api/v1/flat/create", flatHandler.Create, mw.AuthOnly)
-	app.echo.POST("/api/v1/flat/update", flatHandler.Update, mw.ModeratorsOnly)
+	app.echo.PATCH("/api/v1/flat/update", flatHandler.Update, mw.ModeratorsOnly)
 
 	app.echo.GET("/api/v1/dummyLogin", dummyLoginHandler.DummyLogin)
 

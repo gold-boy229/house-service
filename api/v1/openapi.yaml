@@ -246,7 +246,7 @@ paths:
         '500':
           $ref: '#/components/responses/5xx'
   /api/v1/flat/update:
-    post:
+    patch:
       description: >-
         Обновление квартиры.
       tags:
@@ -260,8 +260,7 @@ paths:
               type: object
               required:
                 - id
-                - price
-                - room
+                - status
               properties:
                 id:
                   $ref: '#/components/schemas/FlatId'
