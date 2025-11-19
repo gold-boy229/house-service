@@ -7,7 +7,7 @@ import (
 
 type flatProvider interface {
 	Flat_Create(context.Context, entity.Flat) (entity.Flat, error)
-	Flat_Update()
+	Flat_Update(context.Context, entity.Flat) (entity.Flat, error)
 }
 
 type flatHandler struct {

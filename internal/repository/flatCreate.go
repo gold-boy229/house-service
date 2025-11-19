@@ -15,7 +15,7 @@ func (repo *repository) Flat_Create(ctx context.Context, flat entity.Flat) (enti
 	}
 	defer tx.Rollback()
 
-	flatModel := convertEntityToModel(flat)
+	flatModel := convertEntityToModel_FlatCreate(flat)
 
 	newFlatId, err := insertRowAndGetID_Flat(tx, flatModel)
 	if err != nil {
@@ -37,7 +37,7 @@ func (repo *repository) Flat_Create(ctx context.Context, flat entity.Flat) (enti
 		return entity.Flat{}, err
 	}
 
-	return convertModelToEntity(resFlat), nil
+	return convertModelToEntity_FlatCreate(resFlat), nil
 }
 
 func insertRowAndGetID_Flat(tx *sql.Tx, flat model.Flat) (int64, error) {
@@ -81,7 +81,7 @@ func getFlatById(tx *sql.Tx, id int64) (model.Flat, error) {
 	return flat, nil
 }
 
-func convertEntityToModel(flat entity.Flat) model.Flat {
+func convertEntityToModel_FlatCreate(flat entity.Flat) model.Flat {
 	return model.Flat{
 		HouseId: flat.HouseId,
 		Price:   flat.Price,
@@ -89,7 +89,7 @@ func convertEntityToModel(flat entity.Flat) model.Flat {
 	}
 }
 
-func convertModelToEntity(flat model.Flat) entity.Flat {
+func convertModelToEntity_FlatCreate(flat model.Flat) entity.Flat {
 	return entity.Flat{
 		FlatId:  flat.FlatId,
 		HouseId: flat.HouseId,
