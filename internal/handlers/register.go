@@ -1,19 +1,18 @@
 package handlers
 
-import "github.com/labstack/echo/v4"
+import (
+	"context"
+	"house-store/internal/entity"
+)
 
 type userCreator interface {
-	User_Create()
+	User_Create(context.Context, entity.User) (entity.User, error)
 }
 
 type registerHandler struct {
-	repo *userCreator
+	repo userCreator
 }
 
 func NewRegisterHandler(repo userCreator) *registerHandler {
-	return &registerHandler{repo: &repo}
-}
-
-func (h *registerHandler) RegisterNewUser(c echo.Context) error {
-	return nil
+	return &registerHandler{repo: repo}
 }
