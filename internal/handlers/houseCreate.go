@@ -21,7 +21,7 @@ func (h *houseHandler) CreateNewHouse(c echo.Context) error {
 
 	houseReq := convertDTOToEntity_HouseCreate(reqDTO)
 
-	houseRes, err := h.repo.House_Create(context.Background(), houseReq)
+	houseRes, err := h.repo.House_Create(context.TODO(), houseReq)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse_5xx{Message: err.Error()})
 	}
