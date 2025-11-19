@@ -49,8 +49,8 @@ func (h *loginHandler) Login(c echo.Context) error {
 	}
 	userRole := userExistence.Role
 
-	// want to create JWT token with claims {UserRole + UserUUID}
-	token, err := auth.CreateToken(userRole)
+	// create JWT token with claims {UserRole + UserUUID}
+	token, err := auth.CreateAuthorizedToken(entity.AuthorizedTokenParams{UserRole: userRole, UserUUID: userLoginData.UUID})
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse_5xx{Message: err.Error()})
 	}
