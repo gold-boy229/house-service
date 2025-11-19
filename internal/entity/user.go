@@ -6,3 +6,13 @@ type User struct {
 	Email        string
 	PasswordHash string
 }
+
+type UserLoginData struct {
+	UUID     string
+	Password string
+}
+type UserExistence struct {
+	Exists            bool
+	IsPasswordCorrect bool
+	Role              string
+}

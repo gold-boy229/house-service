@@ -40,6 +40,9 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - id
+                - password
               properties:
                 id:
                   $ref: '#/components/schemas/UserId'

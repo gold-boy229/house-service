@@ -1,9 +1,8 @@
 package model
 
 type AppUser struct {
-	Id           int
+	UUID         string
 	Role         string
 	Email        string
 	PasswordHash string
-	UUID         string
 }
